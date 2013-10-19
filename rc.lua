@@ -72,11 +72,28 @@ local layouts =
 -- }}}
 
 -- {{{ Wallpaper
-if beautiful.wallpaper then
-    for s = 1, screen.count() do
-        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+local wp_timer = timer { timeout = 10 }
+local wp_files = {}
+wp_timer:connect_signal("timeout", function()
+    if next(wp_files) == nil then
+        local fh = io.popen("find /home/jin/images/bkg -type f | grep -Ei \"\\\.(jpg|jpeg|gif|bmp|png)\$\" | grep -v vertical | rl")
+        for file in fh:lines() do table.insert(wp_files, file) end
+        io.close(fh)
     end
-end
+    local wp_file = table.remove(wp_files)
+    naughty.notify({title = "wallpaper", text = wp_file .. " " .. table.getn(wp_files)})
+    for s=1, screen.count() do
+        if string.match(wp_file, '/center/') then
+            gears.wallpaper.centered(wp_file, s, "#000000")
+        else
+            gears.wallpaper.fit(wp_file, s, "#000000")
+        end
+    end
+    wp_timer:stop()
+    wp_timer.timeout = 60 * 60
+    wp_timer:start()
+end)
+wp_timer:start()
 -- }}}
 
 -- {{{ Tags
@@ -95,13 +112,12 @@ myawesomemenu = {
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
    { "quit", awesome.quit },
-   { "reboot", "reboot" },
-   { "shutdown", "shutdown" },
+   --{ "reboot", "reboot" },
+   --{ "shutdown", "shutdown" },
 }
 
 mymainmenu = awful.menu({ items = {
    { "terminal", terminal },
-   { "chrome", browser },
    { "awesome", myawesomemenu, beautiful.awesome_icon },
 }})
 
@@ -277,10 +293,14 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
         function ()
-            awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
+            --awful.client.focus.history.previous()
+            awful.client.focus.byidx(-1)
+            if client.focus then client.focus:raise() end
+        end),
+    awful.key({ modkey, "Shift"   }, "Tab",
+        function ()
+            awful.client.focus.byidx(1)
+            if client.focus then client.focus:raise() end
         end),
 
     -- Standard program
