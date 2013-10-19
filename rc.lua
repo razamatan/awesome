@@ -119,6 +119,39 @@ menubar.show_categories = false
 -- Create a textclock widget
 mytextclock = awful.widget.textclock(" %a %m/%d %H:%M ", 60)
 
+-- Create awesompd
+local awesompd = require('awesompd/awesompd')
+musicwidget = awesompd:create() -- Create awesompd widget
+musicwidget.font = "Terminus 8" -- Set widget font
+--musicwidget.font_color = "#FFFFFF" --Set widget font color
+musicwidget.background = "#000000" --Set widget background color
+musicwidget.scrolling = true -- If true, the text in the widget will be scrolled
+musicwidget.output_size = 30 -- Set the size of widget in symbols
+musicwidget.update_interval = 10 -- Set the update interval in seconds
+musicwidget.path_to_icons = "/home/jin/.config/awesome/icons"
+musicwidget.jamendo_format = awesompd.FORMAT_MP3
+musicwidget.browser = browser
+musicwidget.show_album_cover = true
+musicwidget.album_cover_size = 50 -- max 100
+musicwidget.mpd_config = "/etc/mpd.conf"
+musicwidget.ldecorator = " " -- left empty for outside decoration
+musicwidget.rdecorator = " " -- left empty for outside decoration
+musicwidget.servers = { { server = "localhost", port = 6600 }, }
+musicwidget:register_buttons({
+    { "", "XF86AudioPlay", musicwidget:command_playpause() },
+    { modkey, "XF86Forward", musicwidget:command_prev_track() },
+    { modkey, "XF86Back", musicwidget:command_next_track() },
+    { "Control", awesompd.MOUSE_SCROLL_UP, musicwidget:command_prev_track() },
+    { "Control", awesompd.MOUSE_SCROLL_DOWN, musicwidget:command_next_track() },
+    { "", awesompd.MOUSE_SCROLL_UP, musicwidget:command_volume_up() },
+    { "", awesompd.MOUSE_SCROLL_DOWN, musicwidget:command_volume_down() },
+    { "Control", "XF86AudioLowerVolume", musicwidget:command_volume_down() },
+    { "Control", "XF86AudioRaiseVolume", musicwidget:command_volume_up() },
+    { "", awesompd.MOUSE_LEFT, musicwidget:command_toggle() },
+    { "", awesompd.MOUSE_RIGHT, musicwidget:command_show_menu() },
+})
+musicwidget:run() -- After all configuration is done, run the widget
+
 -- Create a wibox for each screen and add it
 mywibox = {}
 mypromptbox = {}
@@ -195,6 +228,7 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
+    right_layout:add(musicwidget.widget)
     if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
@@ -280,12 +314,11 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "p", function() menubar.show() end),
 
     -- mpc
-    awful.key({ modkey }, "XF86Forward", function () awful.util.spawn("mpc next", false) end),
-    awful.key({ modkey }, "XF86Back", function () awful.util.spawn("mpc prev", false) end),
-    awful.key({        }, "XF86AudioPlay", function () awful.util.spawn("mpc toggle", false) end),
+    --awful.key({ modkey }, "XF86Forward", function () awful.util.spawn("mpc next", false) end),
+    --awful.key({ modkey }, "XF86Back", function () awful.util.spawn("mpc prev", false) end),
+    --awful.key({        }, "XF86AudioPlay", function () awful.util.spawn("mpc toggle", false) end),
 
     -- Audio
-    --XF86AudioMute
     awful.key({}, "XF86AudioMute",
        function () awful.util.spawn("amixer -q sset Master toggle", false) end),
     awful.key({}, "XF86AudioLowerVolume",
@@ -368,6 +401,7 @@ clientbuttons = awful.util.table.join(
     awful.button({ modkey }, 3, awful.mouse.client.resize))
 
 -- Set keys
+musicwidget:append_global_keys()
 root.keys(globalkeys)
 -- }}}
 
