@@ -137,36 +137,36 @@ mytextclock = awful.widget.textclock(" %a %m/%d %H:%M ", 60)
 
 -- Create awesompd
 local awesompd = require('awesompd/awesompd')
-musicwidget = awesompd:create() -- Create awesompd widget
-musicwidget.font = "Terminus 8" -- Set widget font
---musicwidget.font_color = "#FFFFFF" --Set widget font color
-musicwidget.background = "#000000" --Set widget background color
-musicwidget.scrolling = true -- If true, the text in the widget will be scrolled
-musicwidget.output_size = 30 -- Set the size of widget in symbols
-musicwidget.update_interval = 10 -- Set the update interval in seconds
-musicwidget.path_to_icons = "/home/jin/.config/awesome/icons"
-musicwidget.jamendo_format = awesompd.FORMAT_MP3
-musicwidget.browser = browser
-musicwidget.show_album_cover = true
-musicwidget.album_cover_size = 50 -- max 100
-musicwidget.mpd_config = "/etc/mpd.conf"
-musicwidget.ldecorator = " " -- left empty for outside decoration
-musicwidget.rdecorator = " " -- left empty for outside decoration
-musicwidget.servers = { { server = "localhost", port = 6600 }, }
-musicwidget:register_buttons({
-    { "", "XF86AudioPlay", musicwidget:command_playpause() },
-    { modkey, "XF86Back", musicwidget:command_prev_track() },
-    { modkey, "XF86Forward", musicwidget:command_next_track() },
-    { "Control", awesompd.MOUSE_SCROLL_UP, musicwidget:command_prev_track() },
-    { "Control", awesompd.MOUSE_SCROLL_DOWN, musicwidget:command_next_track() },
-    { "", awesompd.MOUSE_SCROLL_UP, musicwidget:command_volume_up() },
-    { "", awesompd.MOUSE_SCROLL_DOWN, musicwidget:command_volume_down() },
-    { "Control", "XF86AudioLowerVolume", musicwidget:command_volume_down() },
-    { "Control", "XF86AudioRaiseVolume", musicwidget:command_volume_up() },
-    { "", awesompd.MOUSE_LEFT, musicwidget:command_toggle() },
-    { "", awesompd.MOUSE_RIGHT, musicwidget:command_show_menu() },
+mpdwidget = awesompd:create() -- Create awesompd widget
+mpdwidget.font = "Terminus 8" -- Set widget font
+--mpdwidget.font_color = "#FFFFFF" --Set widget font color
+mpdwidget.background = "#000000" --Set widget background color
+mpdwidget.scrolling = true -- If true, the text in the widget will be scrolled
+mpdwidget.output_size = 30 -- Set the size of widget in symbols
+mpdwidget.update_interval = 10 -- Set the update interval in seconds
+mpdwidget.path_to_icons = "/home/jin/.config/awesome/icons"
+mpdwidget.jamendo_format = awesompd.FORMAT_MP3
+mpdwidget.browser = browser
+mpdwidget.show_album_cover = true
+mpdwidget.album_cover_size = 50 -- max 100
+mpdwidget.mpd_config = "/etc/mpd.conf"
+mpdwidget.ldecorator = "" -- empty for outside decoration
+mpdwidget.rdecorator = "" -- empty for outside decoration
+mpdwidget.servers = { { server = "localhost", port = 6600 }, }
+mpdwidget:register_buttons({
+    { "", "XF86AudioPlay", mpdwidget:command_playpause() },
+    { modkey, "XF86Back", mpdwidget:command_prev_track() },
+    { modkey, "XF86Forward", mpdwidget:command_next_track() },
+    { "Control", awesompd.MOUSE_SCROLL_UP, mpdwidget:command_prev_track() },
+    { "Control", awesompd.MOUSE_SCROLL_DOWN, mpdwidget:command_next_track() },
+    { "", awesompd.MOUSE_SCROLL_UP, mpdwidget:command_volume_up() },
+    { "", awesompd.MOUSE_SCROLL_DOWN, mpdwidget:command_volume_down() },
+    { "Control", "XF86AudioLowerVolume", mpdwidget:command_volume_down() },
+    { "Control", "XF86AudioRaiseVolume", mpdwidget:command_volume_up() },
+    { "", awesompd.MOUSE_LEFT, mpdwidget:command_toggle() },
+    { "", awesompd.MOUSE_RIGHT, mpdwidget:command_show_menu() },
 })
-musicwidget:run() -- After all configuration is done, run the widget
+mpdwidget:run() -- After all configuration is done, run the widget
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -244,7 +244,7 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
-    right_layout:add(musicwidget.widget)
+    right_layout:add(mpdwidget.widget)
     if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
@@ -273,16 +273,14 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
-    awful.key({ modkey,           }, "j",
-        function ()
-            awful.client.focus.byidx( 1)
-            if client.focus then client.focus:raise() end
-        end),
-    awful.key({ modkey,           }, "k",
-        function ()
-            awful.client.focus.byidx(-1)
-            if client.focus then client.focus:raise() end
-        end),
+    awful.key({ modkey,           }, "j", function ()
+        awful.client.focus.byidx( 1)
+        if client.focus then client.focus:raise() end
+    end),
+    awful.key({ modkey,           }, "k", function ()
+        awful.client.focus.byidx(-1)
+        if client.focus then client.focus:raise() end
+    end),
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
 
     -- Layout manipulation
@@ -291,23 +289,21 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
     awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
-    awful.key({ modkey,           }, "Tab",
-        function ()
-            --awful.client.focus.history.previous()
-            awful.client.focus.byidx(-1)
-            if client.focus then client.focus:raise() end
-        end),
-    awful.key({ modkey, "Shift"   }, "Tab",
-        function ()
-            awful.client.focus.byidx(1)
-            if client.focus then client.focus:raise() end
-        end),
+    awful.key({ modkey,           }, "Tab", function ()
+        --awful.client.focus.history.previous()
+        awful.client.focus.byidx(-1)
+        if client.focus then client.focus:raise() end
+    end),
+    awful.key({ modkey, "Shift"   }, "Tab", function ()
+        awful.client.focus.byidx(1)
+        if client.focus then client.focus:raise() end
+    end),
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Shift"   }, "Return", function () awful.util.spawn(browser) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
+    awful.key({ modkey, "Control" }, "q", awesome.quit),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
@@ -321,15 +317,36 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
     -- Prompt
-    awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
+    awful.key({ modkey }, "r", function () awful.prompt.run(
+        { prompt = "Run: " },
+        mypromptbox[mouse.screen].widget,
+        function (cmd) -- terminal check
+            cmd = cmd:gsub('^:', terminal .. " -e ", 1)
+            awful.util.spawn(cmd)
+        end,
+        function (cmd, pos, ncomp, shell) -- clean for completion
+            local use_term = false
+            if cmd:sub(1,1) == ":" then
+                term = true
+                cmd = cmd:sub(2)
+                pos = pos - 1
+            end
+            cmd, pos = awful.completion.shell(cmd, pos, ncomp, shell)
+            if term == true then
+                cmd = ':' .. cmd
+                pos = pos + 1
+            end
+            return cmd, pos
+        end,
+        awful.util.getdir("cache") .. "/history")
+    end),
+    awful.key({ modkey }, "x", function () awful.prompt.run(
+        { prompt = "Run Lua code: " },
+        mypromptbox[mouse.screen].widget,
+        awful.util.eval, nil,
+        awful.util.getdir("cache") .. "/history_eval")
+    end),
 
-    awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run({ prompt = "Run Lua code: " },
-                  mypromptbox[mouse.screen].widget,
-                  awful.util.eval, nil,
-                  awful.util.getdir("cache") .. "/history_eval")
-              end),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end),
 
@@ -344,8 +361,9 @@ globalkeys = awful.util.table.join(
     awful.key({}, "XF86AudioLowerVolume",
        function () awful.util.spawn("amixer -q set Master 2%-", false) end),
     awful.key({}, "XF86AudioRaiseVolume",
-       function () awful.util.spawn("amixer -q set Master 2%+", false) end)
+       function () awful.util.spawn("amixer -q set Master 2%+", false) end),
 
+    -- Startup
     --XF86HomePage
     --XF86Search
     --XF86Mail
@@ -355,27 +373,33 @@ globalkeys = awful.util.table.join(
     --XF86Launch7
     --XF86Launch8
     --XF86Launch9
-    --XF86Calculator
+    awful.key({        }, "XF86Calculator", function () awful.util.spawn(terminal .. " -e bc") end),
+    awful.key({ modkey }, "XF86Calculator", function () awful.prompt.run(
+        { prompt = "Calculate: " },
+        mypromptbox[mouse.screen].widget,
+        function (expr)
+            local result = awful.util.eval("return (" .. expr .. ")")
+            naughty.notify({text = expr .. " = " .. result, position = "top_left", timeout = 10})
+        end)
+    end)
 )
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
+    awful.key({ modkey, "Control" }, "c",      function (c) c:kill()                         end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
-    awful.key({ modkey,           }, "n",
-        function (c)
-            -- The client currently has the input focus, so it cannot be
-            -- minimized, since minimized clients can't have the focus.
-            c.minimized = true
-        end),
-    awful.key({ modkey,           }, "m",
-        function (c)
-            c.maximized_horizontal = not c.maximized_horizontal
-            c.maximized_vertical   = not c.maximized_vertical
-        end)
+    awful.key({ modkey,           }, "n", function (c)
+        -- The client currently has the input focus, so it cannot be
+        -- minimized, since minimized clients can't have the focus.
+        c.minimized = true
+    end),
+    awful.key({ modkey,           }, "m", function (c)
+        c.maximized_horizontal = not c.maximized_horizontal
+        c.maximized_vertical   = not c.maximized_vertical
+    end)
 )
 
 -- Bind all key numbers to tags.
@@ -421,7 +445,7 @@ clientbuttons = awful.util.table.join(
     awful.button({ modkey }, 3, awful.mouse.client.resize))
 
 -- Set keys
-musicwidget:append_global_keys()
+mpdwidget:append_global_keys()
 root.keys(globalkeys)
 -- }}}
 
@@ -433,7 +457,8 @@ awful.rules.rules = {
                      border_color = beautiful.border_normal,
                      focus = awful.client.focus.filter,
                      keys = clientkeys,
-                     buttons = clientbuttons } },
+                     buttons = clientbuttons,
+                     size_hints_honor = false } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
     { rule = { class = "pinentry" },
