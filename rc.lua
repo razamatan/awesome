@@ -81,7 +81,7 @@ wp_timer:connect_signal("timeout", function()
         io.close(fh)
     end
     local wp_file = table.remove(wp_files)
-    naughty.notify({title = "wallpaper", text = wp_file .. " " .. table.getn(wp_files)})
+    naughty.notify({title = "wallpaper", text = wp_file})
     for s=1, screen.count() do
         if string.match(wp_file, '/center/') then
             gears.wallpaper.centered(wp_file, s, "#000000")
@@ -155,8 +155,8 @@ musicwidget.rdecorator = " " -- left empty for outside decoration
 musicwidget.servers = { { server = "localhost", port = 6600 }, }
 musicwidget:register_buttons({
     { "", "XF86AudioPlay", musicwidget:command_playpause() },
-    { modkey, "XF86Forward", musicwidget:command_prev_track() },
-    { modkey, "XF86Back", musicwidget:command_next_track() },
+    { modkey, "XF86Back", musicwidget:command_prev_track() },
+    { modkey, "XF86Forward", musicwidget:command_next_track() },
     { "Control", awesompd.MOUSE_SCROLL_UP, musicwidget:command_prev_track() },
     { "Control", awesompd.MOUSE_SCROLL_DOWN, musicwidget:command_next_track() },
     { "", awesompd.MOUSE_SCROLL_UP, musicwidget:command_volume_up() },
