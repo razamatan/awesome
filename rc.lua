@@ -14,16 +14,6 @@ local bashets = require("bashets/bashets")
 -- Monkey Patches
 local progressbar = require("progressbar")
 
--- {{{ Functions
-do
-    local old_quit = awesome.quit
-    awesome.quit = function()
-        bashets.stop()
-        old_quit()
-    end
-end
--- }}}
-
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -47,6 +37,10 @@ do
         in_error = false
     end)
 end
+-- }}}
+
+-- {{{ Quit handler
+awesome.connect_signal("exit", function() bashets.stop() end)
 -- }}}
 
 -- {{{ Variable definitions
