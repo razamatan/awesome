@@ -60,6 +60,7 @@ beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
+altkey = "Mod1"
 modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
@@ -343,6 +344,7 @@ globalkeys = awful.util.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function() awful.util.spawn(terminal) end),
     awful.key({ modkey, "Shift"   }, "Return", function() awful.util.spawn(browser) end),
+    awful.key({ altkey, "Control" }, "l", function() awful.util.spawn("slock", false) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Control" }, "q", awesome.quit),
 
