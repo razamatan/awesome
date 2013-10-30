@@ -44,14 +44,16 @@ awesome.connect_signal("exit", function() bashets.stop() end)
 -- }}}
 
 -- {{{ Variable definitions
--- Themes define colours, icons, and wallpapers
-beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
-
+local myroot = "/home/jin/.config/awesome/"
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvt"
+terminal = "urxvt" or "xterm"
 editor = os.getenv("EDITOR") or "vi"
 editor_cmd = terminal .. " -e " .. editor
 browser = "google-chrome"
+
+-- Themes define colours, icons, and wallpapers
+beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
+
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -150,8 +152,8 @@ local bashets_shm_path = string.format("/run/tmp/%s-bashets/", os.getenv("USER")
 bashets.set_script_path(bashets_shm_path)
 bashets.set_temporary_path(bashets_shm_path)
 os.execute("mkdir -p " .. bashets_shm_path)
-os.execute("cp /home/jin/.config/awesome/bashets/userscripts/* " .. bashets_shm_path)
-os.execute("cp /home/jin/.config/awesome/mybashets/* " .. bashets_shm_path)
+os.execute("cp " .. myroot .. "bashets/userscripts/* " .. bashets_shm_path)
+os.execute("cp " .. myroot .. "mybashets/* " .. bashets_shm_path)
 local volumew = progressbar()
 volumew:set_max_value(100)
 volumew:set_vertical(true):set_ticks(true)
@@ -183,7 +185,7 @@ mpdw.background = "#2a2a2a" --Set widget background color
 mpdw.scrolling = true -- If true, the text in the widget will be scrolled
 mpdw.output_size = 30 -- Set the size of widget in symbols
 mpdw.update_interval = 10 -- Set the update interval in seconds
-mpdw.path_to_icons = "/home/jin/.config/awesome/icons"
+mpdw.path_to_icons = myroot .. "awesompd/icons"
 mpdw.jamendo_format = awesompd.FORMAT_MP3
 mpdw.browser = browser
 mpdw.show_album_cover = true
