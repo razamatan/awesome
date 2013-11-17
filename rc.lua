@@ -49,7 +49,7 @@ local myroot = "/home/jin/.config/awesome/"
 terminal = "urxvt" or "xterm"
 editor = os.getenv("EDITOR") or "vi"
 editor_cmd = terminal .. " -e " .. editor
-browser = "google-chrome"
+browser = "google-chrome-stable"
 
 -- Themes define colours, icons, and wallpapers
 beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
