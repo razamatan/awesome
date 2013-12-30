@@ -110,7 +110,7 @@ wp_timer:start()
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4 }, s, layouts[1])
+    tags[s] = awful.tag({ 'α', 'β', 'γ', 'δ' }, s, layouts[1])
 end
 -- }}}
 
