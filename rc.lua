@@ -269,7 +269,7 @@ mytasklist.buttons = awful.util.table.join(
             c:raise()
         end
     end),
-    awful.button({ }, 3, function()
+    awful.button({ }, 2, function()
         if instance then
             instance:hide()
             instance = nil
@@ -448,8 +448,8 @@ globalkeys = awful.util.table.join(
     --XF86Launch7
     --XF86Launch8
     --XF86Launch9
-    awful.key({        }, "XF86Calculator", function() awful.util.spawn(terminal .. " -e bc") end),
-    awful.key({ modkey }, "XF86Calculator", function() awful.prompt.run(
+    awful.key({ modkey }, "XF86Calculator", function() awful.util.spawn(terminal .. " -e python") end),
+    awful.key({        }, "XF86Calculator", function() awful.prompt.run(
         { prompt = "Calculate: " },
         mypromptbox[mouse.screen].widget,
         function(expr)
