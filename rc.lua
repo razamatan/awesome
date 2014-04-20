@@ -115,19 +115,20 @@ end
 -- }}}
 
 -- {{{ Menu
+icon_dir = '/home/jin/.icons/Nuvola/'
 -- Create a laucher widget and a main menu
 myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", awesome.quit },
+   { "manual", terminal .. " -e man awesome", icon_dir .. 'scalable/stock/gtk-help.svg' },
+   { "edit config", editor_cmd .. " " .. awesome.conffile, icon_dir .. 'scalable/stock/stock_desktop.svg' },
+   { "restart", awesome.restart, icon_dir .. 'scalable/stock/gtk-refresh.svg' },
+   { "quit", awesome.quit, icon_dir .. 'scalable/stock/gtk-quit.svg' },
    --{ "reboot", "reboot" },
    --{ "shutdown", "shutdown" },
 }
 
 mymainmenu = awful.menu({ items = {
-   { "terminal", terminal },
-   { "browser", browser },
+   { "terminal", terminal, icon_dir .. 'scalable/apps/gnome-terminal.svg' },
+   { "browser", browser, icon_dir .. 'scalable/apps/web-browser.svg' },
    { "awesome", myawesomemenu, beautiful.awesome_icon },
 }})
 
@@ -270,11 +271,22 @@ mytasklist.buttons = awful.util.table.join(
         end
     end),
     awful.button({ }, 2, function()
-        if instance then
-            instance:hide()
-            instance = nil
+        if client_menu then
+            client_menu:hide()
+            client_menu = nil
         else
-            instance = awful.menu.clients({ width=250 })
+            client_menu = awful.menu.clients({ theme = { width=500 } })
+        end
+    end),
+    awful.button({ }, 3, function(c)
+        if context_menu then
+            context_menu:hide()
+            context_menu = nil
+        else
+            context_menu = awful.menu({ items = {
+               { "close", function() c:kill() end, icon_dir .. 'scalable/stock/gtk-stop.svg' },
+            }})
+            context_menu:show()
         end
     end),
     awful.button({ }, 4, function()
