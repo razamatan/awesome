@@ -131,6 +131,7 @@ mymainmenu = awful.menu({ items = {
    { "browser", browser, icon_dir .. 'scalable/apps/web-browser.svg' },
    { "awesome", myawesomemenu, beautiful.awesome_icon },
 }})
+--mymainmenu:connect_signal("mouse::leave", function() mymainmenu:hide() end)
 
 mylauncher = awful.widget.launcher({
     image = beautiful.awesome_icon, menu = mymainmenu })
