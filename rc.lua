@@ -14,6 +14,9 @@ local bashets = require("bashets/bashets")
 -- Monkey Patches
 local progressbar = require("progressbar")
 
+-- startupd mpd early
+awful.util.spawn_with_shell("[ -s /var/lib/mpd/pid ] || /usr/bin/mpd")
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
