@@ -84,7 +84,7 @@ local layouts =
 -- }}}
 
 -- {{{ Wallpaper
-local wp_timer = timer { timeout = 10 }
+local wp_timer = timer { timeout = 2 }
 local wp_files = {}
 wp_timer:connect_signal("timeout", function()
     if next(wp_files) == nil then
