@@ -88,21 +88,23 @@ local wp_timer = timer { timeout = 2 }
 local wp_files = {}
 wp_timer:connect_signal("timeout", function()
     if next(wp_files) == nil then
-        local fh = io.popen("find /home/jin/images/bkg -type f | grep -Ei \"\\\.(jpg|jpeg|gif|bmp|png)\$\" | grep -v vertical | rl")
+        local fh = io.popen("find /home/jin/images/bkg -type f | grep -Ei \"\\\.(jpg|jpeg|gif|bmp|png)\$\" | grep -Ev 'vertical|1680|1200' | rl")
         for file in fh:lines() do table.insert(wp_files, file) end
         io.close(fh)
     end
     local wp_file = table.remove(wp_files)
     naughty.notify({title = "wallpaper", text = wp_file})
-    for s=1, screen.count() do
-        if string.match(wp_file, '/center/') then
-            gears.wallpaper.centered(wp_file, s, "#000000")
-        else
-            gears.wallpaper.fit(wp_file, s, "#000000")
+    if wp_file ~= nil then
+        for s=1, screen.count() do
+            if string.match(wp_file, '/center/') then
+                gears.wallpaper.centered(wp_file, s, "#000000")
+            else
+                gears.wallpaper.fit(wp_file, s, "#000000")
+            end
         end
     end
     wp_timer:stop()
-    wp_timer.timeout = 60 * 60
+    wp_timer.timeout = 30 * 60
     wp_timer:start()
 end)
 wp_timer:start()
