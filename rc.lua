@@ -15,7 +15,7 @@ local bashets = require("bashets/bashets")
 local progressbar = require("progressbar")
 
 -- startupd mpd early
-awful.util.spawn_with_shell("[ -s /var/lib/mpd/pid ] || /usr/bin/mpd")
+awful.util.spawn_with_shell("/usr/bin/pgrep mpd > /dev/null || /usr/bin/mpd")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
