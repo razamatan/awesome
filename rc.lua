@@ -53,6 +53,7 @@ icon_dir = '/home/jin/.icons/Nuvola/'
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
+altkey = "Mod1"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -311,6 +312,10 @@ globalkeys = awful.util.table.join(
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
+    awful.key({ modkey, altkey    }, "l", function () awful.spawn("slock", false) end,
+              {description = "lock screen", group = "screen"}),
+    awful.key({ modkey, altkey    }, "m", function () awful.spawn("/zhome/jin/bin/monitor_off 10") end,
+              {description = "turn monitor off for 10s via dpms", group = "screen"}),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
