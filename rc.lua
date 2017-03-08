@@ -45,6 +45,7 @@ terminal = "urxvt" or "xterm"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 browser = "google-chrome-stable"
+icon_dir = '/home/jin/.icons/Nuvola/'
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -87,10 +88,24 @@ local function client_menu_toggle_fn()
         end
     end
 end
+local function context_menu_toggle_fn()
+    local instance = nil
+
+    return function (c)
+        if instance and instance.wibox.visible then
+            instance:hide()
+            instance = nil
+        else
+            instance = awful.menu({ items = {
+               { "close", function() c:kill() end, icon_dir .. 'scalable/stock/gtk-stop.svg' },
+            }})
+            instance:show()
+        end
+    end
+end
 -- }}}
 
 -- {{{ Menu
-icon_dir = '/home/jin/.icons/Nuvola/'
 -- Create a launcher widget and a main menu
 myawesomemenu = {
    { "hotkeys", function() return false, hotkeys_popup.show_help end, icon_dir .. 'scalable/apps/gnome-settings-keybindings.svg' },
@@ -155,6 +170,7 @@ local tasklist_buttons = awful.util.table.join(
                                                   c:raise()
                                               end
                                           end),
+                     awful.button({ }, 2, context_menu_toggle_fn()),
                      awful.button({ }, 3, client_menu_toggle_fn()),
                      awful.button({ }, 4, function ()
                                               awful.client.focus.byidx(1)
