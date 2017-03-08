@@ -90,19 +90,21 @@ end
 -- }}}
 
 -- {{{ Menu
+icon_dir = '/home/jin/.icons/Nuvola/'
 -- Create a launcher widget and a main menu
 myawesomemenu = {
-   { "hotkeys", function() return false, hotkeys_popup.show_help end},
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", function() awesome.quit() end}
+   { "hotkeys", function() return false, hotkeys_popup.show_help end, icon_dir .. 'scalable/apps/gnome-settings-keybindings.svg' },
+   { "manual", terminal .. " -e man awesome", icon_dir .. 'scalable/stock/gtk-help.svg' },
+   { "edit config", editor_cmd .. " " .. awesome.conffile, icon_dir .. 'scalable/stock/stock_desktop.svg' },
+   { "restart", awesome.restart, icon_dir .. 'scalable/stock/gtk-refresh.svg' },
+   { "quit", function() awesome.quit() end, icon_dir .. 'scalable/stock/gtk-quit.svg'}
 }
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
-                                  }
-                        })
+mymainmenu = awful.menu({ items = {
+   { "terminal", terminal, icon_dir .. 'scalable/apps/gnome-terminal.svg' },
+   { "browser", browser, icon_dir .. 'scalable/apps/web-browser.svg' },
+   { "awesome", myawesomemenu, beautiful.awesome_icon }
+}})
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
@@ -280,6 +282,8 @@ globalkeys = awful.util.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
+    awful.key({ modkey, "Shift"   }, "Return", function () awful.spawn(browser) end,
+              {description = "open a browser", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
