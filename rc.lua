@@ -317,6 +317,24 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, altkey    }, "m", function () awful.spawn("/zhome/jin/bin/monitor_off 10") end,
               {description = "turn monitor off for 10s via dpms", group = "screen"}),
 
+    awful.key({}, "XF86Calculator", function() awful.spawn(terminal .. " -e python") end,
+              {description = "python shell", group = "launcher"}),
+    awful.key({}, "XF86AudioMute", function() awful.spawn("amixer -q sset Master toggle", false) end,
+              {description = "mute", group = "audio"}),
+    awful.key({}, "XF86AudioLowerVolume", function() awful.spawn("amixer -q set Master 1%-", false) end,
+              {description = "decrease volume", group = "audio"}),
+    awful.key({}, "XF86AudioRaiseVolume", function() awful.spawn("amixer -q set Master 1%+", false) end,
+              {description = "increase volume", group = "audio"}),
+     --[[
+    --XF86HomePage XF86Search XF86Mail XF86Favorites XF86Launch5 XF86Launch6 XF86Launch7 XF86Launch8 XF86Launch9
+    awful.key({ modkey }, "XF86Forward", function() awful.spawn("mpc next", false) end,
+              {description = "mpc next", group = "audio"}),
+    awful.key({ modkey }, "XF86Back", function() awful.spawn("mpc prev", false) end,
+              {description = "mpc previous", group = "audio"}),
+    awful.key({}, "XF86AudioPlay", function() awful.spawn("mpc toggle", false) end,
+              {description = "mpc play/pause", group = "audio"}),
+    ]]
+
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)          end,
