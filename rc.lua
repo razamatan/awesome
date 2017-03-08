@@ -374,6 +374,9 @@ globalkeys = awful.util.table.join(
         if client.focus then client.focus:raise() end
     end),
     awful.key({ modkey,           }, "w", function() mymainmenu:show() end),
+    awful.key({ modkey, "Control" }, "m", function()
+        awful.util.spawn_with_shell("/zhome/jin/bin/monitor_off 10")
+    end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function() awful.client.swap.byidx(  1)    end),

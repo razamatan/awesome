@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- @author Julien Danjou &lt;julien@danjou.info&gt;
 -- @copyright 2009 Julien Danjou
--- @release v3.5.1
+-- @release v3.5.9
 ---------------------------------------------------------------------------
 
 local setmetatable = setmetatable
