@@ -10,6 +10,7 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
+--local widgets = require("widgets")
 
 -- start mpd early
 awful.spawn.with_shell("/usr/bin/pgrep mpd > /dev/null || /usr/bin/mpd")
@@ -41,14 +42,14 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(awful.util.get_themes_dir() .. "zenburn/theme.lua")
+beautiful.init(awful.util.get_configuration_dir() .. "theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvt" or "xterm"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 browser = "google-chrome-stable"
-icon_dir = '/home/jin/.icons/Nuvola/'
+icon_dir = os.getenv("HOME") .. '/.icons/Nuvola/'
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -242,6 +243,7 @@ awful.screen.connect_for_each_screen(function(s)
             separator,
             mykeyboardlayout,
             wibox.widget.systray(),
+            beautiful.volume.widget,
             mytextclock,
         },
     }
