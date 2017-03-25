@@ -137,9 +137,6 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
--- Create a textclock widget
-mytextclock = wibox.widget.textclock()
-
 -- Create a wibox for each screen and add it
 local taglist_buttons = awful.util.table.join(
                     awful.button({ }, 1, function(t) t:view_only() end),
@@ -244,7 +241,7 @@ awful.screen.connect_for_each_screen(function(s)
             mykeyboardlayout,
             wibox.widget.systray(),
             beautiful.volume.widget,
-            mytextclock,
+            beautiful.clock,
         },
     }
 end)
@@ -324,11 +321,11 @@ globalkeys = awful.util.table.join(
 
     awful.key({}, "XF86Calculator", function() awful.spawn(terminal .. " -e python") end,
               {description = "python shell", group = "launcher"}),
-    awful.key({}, "XF86AudioMute", function() awful.spawn("amixer -q sset Master toggle", false) end,
+    awful.key({}, "XF86AudioMute", beautiful.volume.fx.mute,
               {description = "mute", group = "audio"}),
-    awful.key({}, "XF86AudioLowerVolume", function() awful.spawn("amixer -q set Master 1%-", false) end,
+    awful.key({}, "XF86AudioLowerVolume", beautiful.volume.fx.down,
               {description = "decrease volume", group = "audio"}),
-    awful.key({}, "XF86AudioRaiseVolume", function() awful.spawn("amixer -q set Master 1%+", false) end,
+    awful.key({}, "XF86AudioRaiseVolume", beautiful.volume.fx.up,
               {description = "increase volume", group = "audio"}),
      --[[
     --XF86HomePage XF86Search XF86Mail XF86Favorites XF86Launch5 XF86Launch6 XF86Launch7 XF86Launch8 XF86Launch9
