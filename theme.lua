@@ -11,6 +11,16 @@ local theme = protected_call(dofile, awful.util.get_themes_dir() .. 'zenburn/the
 theme.font = 'roboto sans 8'
 theme.monofont = 'roboto mono 8'
 
+-- icons
+theme.lain_icons         = os.getenv('HOME') ..
+                           '/.config/awesome/lain/icons/layout/zenburn/'
+theme.layout_termfair    = theme.lain_icons .. 'termfair.png'
+theme.layout_centerfair  = theme.lain_icons .. 'centerfair.png'  -- termfair.center
+theme.layout_cascade     = theme.lain_icons .. 'cascade.png'
+theme.layout_cascadetile = theme.lain_icons .. 'cascadetile.png' -- cascade.tile
+theme.layout_centerwork  = theme.lain_icons .. 'centerwork.png'
+theme.layout_centerhwork = theme.lain_icons .. 'centerworkh.png' -- centerwork.horizonta
+
 -- clock & calendar
 theme.clock = wibox.widget.textclock(' %H:%M ')
 theme.clock.font = theme.font
