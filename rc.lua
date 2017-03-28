@@ -10,7 +10,6 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
---local widgets = require("widgets")
 
 -- start mpd early
 awful.spawn.with_shell("/usr/bin/pgrep mpd > /dev/null || /usr/bin/mpd")
@@ -113,17 +112,17 @@ end
 -- {{{ Menu
 -- Create a launcher widget and a main menu
 myawesomemenu = {
-   { "hotkeys", function() return false, hotkeys_popup.show_help end, icon_dir .. 'scalable/apps/gnome-settings-keybindings.svg' },
-   { "manual", terminal .. " -e man awesome", icon_dir .. 'scalable/stock/gtk-help.svg' },
-   { "edit config", editor_cmd .. " " .. awesome.conffile, icon_dir .. 'scalable/stock/stock_desktop.svg' },
-   { "restart", awesome.restart, icon_dir .. 'scalable/stock/gtk-refresh.svg' },
-   { "quit", function() awesome.quit() end, icon_dir .. 'scalable/stock/gtk-quit.svg'}
+    { "hotkeys", function() return false, hotkeys_popup.show_help end, icon_dir .. 'scalable/apps/gnome-settings-keybindings.svg' },
+    { "manual", terminal .. " -e man awesome", icon_dir .. 'scalable/stock/gtk-help.svg' },
+    { "edit config", editor_cmd .. " " .. awesome.conffile, icon_dir .. 'scalable/stock/stock_desktop.svg' },
+    { "restart", awesome.restart, icon_dir .. 'scalable/stock/gtk-refresh.svg' },
+    { "quit", function() awesome.quit() end, icon_dir .. 'scalable/stock/gtk-quit.svg'}
 }
 
 mymainmenu = awful.menu({ items = {
-   { "terminal", terminal, icon_dir .. 'scalable/apps/gnome-terminal.svg' },
-   { "browser", browser, icon_dir .. 'scalable/apps/web-browser.svg' },
-   { "awesome", myawesomemenu, beautiful.awesome_icon }
+    { "terminal", terminal, icon_dir .. 'scalable/apps/gnome-terminal.svg' },
+    { "browser", browser, icon_dir .. 'scalable/apps/web-browser.svg' },
+    { "awesome", myawesomemenu, beautiful.awesome_icon }
 }})
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
