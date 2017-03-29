@@ -326,7 +326,6 @@ globalkeys = awful.util.table.join(
               {description = "decrease volume", group = "audio"}),
     awful.key({}, "XF86AudioRaiseVolume", beautiful.volume.fx.up,
               {description = "increase volume", group = "audio"}),
-     --[[
     --XF86HomePage XF86Search XF86Mail XF86Favorites XF86Launch5 XF86Launch6 XF86Launch7 XF86Launch8 XF86Launch9
     awful.key({ modkey }, "XF86Forward", function() awful.spawn("mpc next", false) end,
               {description = "mpc next", group = "audio"}),
@@ -334,7 +333,6 @@ globalkeys = awful.util.table.join(
               {description = "mpc previous", group = "audio"}),
     awful.key({}, "XF86AudioPlay", function() awful.spawn("mpc toggle", false) end,
               {description = "mpc play/pause", group = "audio"}),
-    ]]
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
