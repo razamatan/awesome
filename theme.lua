@@ -1,11 +1,17 @@
 local awful = require('awful')
+local naughty = require('naughty')
 local wibox = require('wibox')
 local lain = require('lain')
+local helpers = require('lain.helpers')
 local protected_call = require('gears.protected_call')
+local wallpaper = require('gears.wallpaper')
 local dofile = dofile
 local format = string.format
 
 local theme = protected_call(dofile, awful.util.get_themes_dir() .. 'zenburn/theme.lua')
+
+-- desktop background color
+theme.desktop_color = '#000'
 
 -- fonts
 theme.font = 'roboto sans 8'
@@ -73,5 +79,29 @@ volume.widget:buttons(awful.util.table.join(
    awful.button({}, 5, volume.fx.down)
 ))
 theme.volume = volume
+
+-- randomized wallpaper
+local wp_file = nil
+local wp_files = {}
+theme.wallpaper = function(s)
+   if next(wp_files) == nil then
+      local fh = io.popen([[ find /home/jin/images/bkg -type f | grep -Ei "\\.(jpg|jpeg|gif|bmp|png)$" | grep -Ev "vertical" | shuf ]])
+      for file in fh:lines() do
+         table.insert(wp_files, file)
+      end
+   end
+   if wp_file == nil or s == nil then wp_file = table.remove(wp_files) end
+   if wp_file ~= nil then
+      naughty.notify({title = 'wallpaper', text = wp_file, position = 'bottom_right'})
+      if string.match(wp_file, '/center/') then
+         wallpaper.centered(wp_file, s, theme.desktop_color)
+      elseif string.match(wp_file, '/fit/') then
+         wallpaper.fit(wp_file, s, theme.desktop_color)
+      else
+         wallpaper.maximized(wp_file, s, true)
+      end
+   end
+end
+helpers.newtimer('wallpaper', 30 * 60, function() theme.wallpaper(nil) end, true, true)
 
 return theme
