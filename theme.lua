@@ -18,6 +18,7 @@ theme.font = 'roboto sans 8'
 theme.monofont = 'roboto mono 8'
 
 -- icons
+naughty.config.defaults.icon_size = 64 -- undo after version bump
 theme.lain_icons         = os.getenv('HOME') ..
                            '/.config/awesome/lain/icons/layout/zenburn/'
 theme.layout_termfair    = theme.lain_icons .. 'termfair.png'
