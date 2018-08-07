@@ -314,7 +314,7 @@ globalkeys = awful.util.table.join(
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
-    awful.key({ modkey, altkey    }, "l", function () awful.spawn("slock", false) end,
+    awful.key({ modkey, altkey    }, "l", function () awful.spawn("xsecurelock", false) end,
               {description = "lock screen", group = "screen"}),
     awful.key({ modkey, altkey    }, "m", function () awful.spawn("/zhome/jin/bin/monitor_off 10") end,
               {description = "turn monitor off for 10s via dpms", group = "screen"}),
