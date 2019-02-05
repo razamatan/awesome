@@ -31,8 +31,10 @@ theme.layout_centerhwork = theme.lain_icons .. 'centerworkh.png' -- centerwork.h
 -- clock & calendar
 theme.clock = wibox.widget.textclock(' %H:%M ')
 theme.clock.font = theme.font
-lain.widget.calendar({
+lain.widget.cal({
    attach_to = { theme.clock },
+   week_start = 1,
+   three = true,
    notification_preset = {
       font = theme.monofont,
       fg = theme.fg_normal,
