@@ -1,14 +1,13 @@
+local gears = require("gears")
 local awful = require('awful')
 local naughty = require('naughty')
 local wibox = require('wibox')
 local lain = require('lain')
 local helpers = require('lain.helpers')
-local protected_call = require('gears.protected_call')
-local wallpaper = require('gears.wallpaper')
 local dofile = dofile
 local format = string.format
 
-local theme = protected_call(dofile, awful.util.get_themes_dir() .. 'zenburn/theme.lua')
+local theme = gears.protected_call(dofile, awful.util.get_themes_dir() .. 'zenburn/theme.lua')
 
 -- desktop background color
 theme.desktop_color = '#000'
@@ -18,7 +17,7 @@ theme.font = 'roboto sans 8'
 theme.monofont = 'roboto mono 8'
 
 -- icons
-naughty.config.defaults.icon_size = 64 -- undo after version bump
+theme.notification_icon_size = 64
 theme.lain_icons         = os.getenv('HOME') ..
                            '/.config/awesome/lain/icons/layout/zenburn/'
 theme.layout_termfair    = theme.lain_icons .. 'termfair.png'
@@ -30,7 +29,6 @@ theme.layout_centerhwork = theme.lain_icons .. 'centerworkh.png' -- centerwork.h
 
 -- clock & calendar
 theme.clock = wibox.widget.textclock(' %H:%M ')
-theme.clock.font = theme.font
 lain.widget.cal({
    attach_to = { theme.clock },
    week_start = 1,
@@ -44,7 +42,6 @@ lain.widget.cal({
 
 -- volume
 local volume = lain.widget.alsabar({
-   notification_preset = { font = theme.font },
    ticks = true, ticks_size = 3,
    colors = {
       background = theme.bg_focus,
@@ -52,9 +49,9 @@ local volume = lain.widget.alsabar({
       mute = theme.fg_urgent,
    },
 })
-volume.tooltip.wibox.font = theme.font
-volume.tooltip.wibox.fg = theme.fg_normal
-volume.tooltip.wibox.bg = theme.bg_systray
+--volume.tooltip.font = theme.font
+--volume.tooltip.fg = theme.fg_normal
+--volume.tooltip.bg = theme.bg_systray
 volume.widget = wibox.container.rotate(volume.bar, 'east')
 volume.widget.forced_width = 10
 local vol_set_cmd = function(action)
@@ -75,7 +72,7 @@ volume.fx = {
       volume.update()
    end,
 }
-volume.widget:buttons(awful.util.table.join(
+volume.widget:buttons(gears.table.join(
    awful.button({}, 1, volume.fx.mixer),
    awful.button({}, 3, volume.fx.mute),
    awful.button({}, 4, volume.fx.up),
@@ -97,11 +94,11 @@ theme.wallpaper = function(s)
    if wp_file ~= nil then
       naughty.notify({title = 'wallpaper', text = wp_file, position = 'bottom_right'})
       if string.match(wp_file, '/center/') then
-         wallpaper.centered(wp_file, s, theme.desktop_color)
+         gears.wallpaper.centered(wp_file, s, theme.desktop_color)
       elseif string.match(wp_file, '/fit/') then
-         wallpaper.fit(wp_file, s, theme.desktop_color)
+         gears.wallpaper.fit(wp_file, s, theme.desktop_color)
       else
-         wallpaper.maximized(wp_file, s, true)
+         gears.wallpaper.maximized(wp_file, s, true)
       end
    end
 end
