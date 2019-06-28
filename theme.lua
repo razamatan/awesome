@@ -41,7 +41,7 @@ lain.widget.cal({
 })
 
 -- volume
-local volume = lain.widget.alsabar({
+local volume = lain.widget.pulsebar({
    ticks = true, ticks_size = 3,
    colors = {
       background = theme.bg_focus,
@@ -54,21 +54,21 @@ local volume = lain.widget.alsabar({
 --volume.tooltip.bg = theme.bg_systray
 volume.widget = wibox.container.rotate(volume.bar, 'east')
 volume.widget.forced_width = 10
-local vol_set_cmd = function(action)
-   return format('%s set %s %s', volume.cmd, volume.channel, action)
+local vol_set_cmd = function(action, value)
+   return format('pactl %s %s %s', action, volume.device, value)
 end
 volume.fx = {
    mixer = function() awful.spawn('pavucontrol') end,
    mute = function()
-      awful.spawn(vol_set_cmd('toggle'), false)
+      awful.spawn(vol_set_cmd('set-sink-mute', 'toggle'), false)
       volume.update()
    end,
    up = function()
-      awful.spawn(vol_set_cmd('1%+'), false)
+      awful.spawn(vol_set_cmd('set-sink-volume', '+1%'), false)
       volume.update()
    end,
    down = function()
-      awful.spawn(vol_set_cmd('1%-'), false)
+      awful.spawn(vol_set_cmd('set-sink-volume', '-1%'), false)
       volume.update()
    end,
 }
