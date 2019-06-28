@@ -4,6 +4,7 @@ local naughty = require('naughty')
 local wibox = require('wibox')
 local lain = require('lain')
 local helpers = require('lain.helpers')
+local markup = lain.util.markup
 local dofile = dofile
 local format = string.format
 
@@ -81,8 +82,32 @@ volume.widget:buttons(gears.table.join(
 theme.volume = volume
 
 -- mpd
+local mode_icons = {
+   repeat_mode = '↻',
+   random_mode = '?',
+   single_mode = '1',
+   consume_mode = '🍽',
+}
 local mpd = lain.widget.mpd({
    music_dir = '/zmedia/music',
+   settings = function()
+      if mpd_now.state == 'stop' then
+         widget:set_markup('')
+      else
+         widget:set_markup(markup.font(theme.font, mpd_now.artist))
+         if widget.tooltip == nil then
+            widget.tooltip = awful.tooltip({ objects = { widget } })
+         end
+         local modes = {mpd_now.state}
+         for k,v in pairs(mpd_now) do
+            if mode_icons[k] ~= nil and v then
+               table.insert(modes, mode_icons[k])
+            end
+         end
+         widget.tooltip:set_text(
+            format('%s\n--\n%s\n%s', mpd_notification_preset.text, mpd_now.file, table.concat(modes, ' ')))
+      end
+   end
 })
 theme.mpd = mpd
 
