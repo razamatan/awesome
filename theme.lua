@@ -80,6 +80,12 @@ volume.widget:buttons(gears.table.join(
 ))
 theme.volume = volume
 
+-- mpd
+local mpd = lain.widget.mpd({
+   music_dir = '/zmedia/music',
+})
+theme.mpd = mpd
+
 -- randomized wallpaper
 local wp_file = nil
 local wp_files = {}
