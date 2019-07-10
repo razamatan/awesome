@@ -223,7 +223,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
-    local separator = wibox.widget.textbox(' ◦ ')
+    local separator = wibox.widget.textbox(beautiful.separator)
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -337,6 +337,8 @@ globalkeys = gears.table.join(
               {description = "mpc previous", group = "audio"}),
     awful.key({}, "XF86AudioPlay", function() awful.spawn("mpc toggle", false) end,
               {description = "mpc play/pause", group = "audio"}),
+    awful.key({ modkey }, "XF86AudioPlay", function() awful.spawn("mpc stop", false) end,
+              {description = "mpc stop", group = "audio"}),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),

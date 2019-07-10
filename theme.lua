@@ -27,6 +27,7 @@ theme.layout_cascade     = theme.lain_icons .. 'cascade.png'
 theme.layout_cascadetile = theme.lain_icons .. 'cascadetile.png' -- cascade.tile
 theme.layout_centerwork  = theme.lain_icons .. 'centerwork.png'
 theme.layout_centerhwork = theme.lain_icons .. 'centerworkh.png' -- centerwork.horizonta
+theme.separator = ' ◦ '
 
 -- clock & calendar
 theme.clock = wibox.widget.textclock(' %H:%M ')
@@ -82,7 +83,7 @@ volume.widget:buttons(gears.table.join(
 theme.volume = volume
 
 -- mpd
-local mode_icons = {
+local mode_icon = {
    repeat_mode = '↻',
    random_mode = '?',
    single_mode = '1',
@@ -94,14 +95,14 @@ local mpd = lain.widget.mpd({
       if mpd_now.state == 'stop' then
          widget:set_markup('')
       else
-         widget:set_markup(markup.font(theme.font, mpd_now.artist))
+         widget:set_markup(markup.font(theme.font, theme.separator .. mpd_now.artist))
          if widget.tooltip == nil then
             widget.tooltip = awful.tooltip({ objects = { widget } })
          end
          local modes = {mpd_now.state}
          for k,v in pairs(mpd_now) do
-            if mode_icons[k] ~= nil and v then
-               table.insert(modes, mode_icons[k])
+            if mode_icon[k] ~= nil and v then
+               table.insert(modes, mode_icon[k])
             end
          end
          widget.tooltip:set_text(
