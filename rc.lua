@@ -18,7 +18,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
--- start mpd early
+-- Start services early.
 awful.spawn.with_shell("/usr/bin/pgrep mpd > /dev/null || /usr/bin/mpd")
 
 -- {{{ Error handling
@@ -610,4 +610,7 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+
+-- Compton fixes screen tearing best.
+awful.spawn.with_shell("/usr/bin/pgrep compton > /dev/null || /usr/bin/compton --backend glx --vsync opengl-swc -b")
 -- }}}
