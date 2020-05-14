@@ -611,6 +611,6 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
--- Compton fixes screen tearing best.
-awful.spawn.with_shell("/usr/bin/pgrep compton > /dev/null || /usr/bin/compton --backend glx --vsync opengl-swc -b")
+-- composting fixes screen tearing best.
+awful.spawn.with_shell("/usr/bin/pgrep picom > /dev/null || /usr/bin/picom --backend glx --vsync -b")
 -- }}}
