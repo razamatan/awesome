@@ -10,6 +10,7 @@ require("awful.autofocus")
 local wibox = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
+local lain = require('lain')
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
@@ -67,6 +68,8 @@ altkey = "Mod1"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
+    lain.layout.termfair.center,
+    lain.layout.termfair,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
@@ -253,8 +256,8 @@ end)
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end),
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
+    awful.button({ modkey }, 4, awful.tag.viewprev),
+    awful.button({ modkey }, 5, awful.tag.viewnext)
 ))
 -- }}}
 
@@ -331,9 +334,13 @@ globalkeys = gears.table.join(
     awful.key({}, "XF86AudioRaiseVolume", beautiful.volume.fx.up,
               {description = "increase volume", group = "audio"}),
     --XF86HomePage XF86Search XF86Mail XF86Favorites XF86Launch5 XF86Launch6 XF86Launch7 XF86Launch8 XF86Launch9
-    awful.key({ modkey }, "XF86Forward", function() awful.spawn("mpc next", false) end,
+    --awful.key({ modkey }, "XF86Forward", function() awful.spawn("mpc next", false) end,
+    --          {description = "mpc next", group = "audio"}),
+    --awful.key({ modkey }, "XF86Back", function() awful.spawn("mpc prev", false) end,
+    --          {description = "mpc previous", group = "audio"}),
+    awful.key({}, "XF86AudioNext", function() awful.spawn("mpc next", false) end,
               {description = "mpc next", group = "audio"}),
-    awful.key({ modkey }, "XF86Back", function() awful.spawn("mpc prev", false) end,
+    awful.key({}, "XF86AudioPrev", function() awful.spawn("mpc prev", false) end,
               {description = "mpc previous", group = "audio"}),
     awful.key({}, "XF86AudioPlay", function() awful.spawn("mpc toggle", false) end,
               {description = "mpc play/pause", group = "audio"}),

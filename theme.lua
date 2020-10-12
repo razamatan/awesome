@@ -10,6 +10,9 @@ local format = string.format
 
 local theme = gears.protected_call(dofile, awful.util.get_themes_dir() .. 'zenburn/theme.lua')
 
+-- master windows and columns
+theme.master_count = 4
+
 -- desktop background color
 theme.desktop_color = '#000'
 
@@ -19,8 +22,7 @@ theme.monofont = 'roboto mono 8'
 
 -- icons
 theme.notification_icon_size = 64
-theme.lain_icons         = os.getenv('HOME') ..
-                           '/.config/awesome/lain/icons/layout/zenburn/'
+theme.lain_icons         = os.getenv('HOME') .. '/.config/awesome/lain/icons/layout/zenburn/'
 theme.layout_termfair    = theme.lain_icons .. 'termfair.png'
 theme.layout_centerfair  = theme.lain_icons .. 'centerfair.png'  -- termfair.center
 theme.layout_cascade     = theme.lain_icons .. 'cascade.png'
@@ -105,8 +107,8 @@ local mpd = lain.widget.mpd({
                table.insert(modes, mode_icon[k])
             end
          end
-         widget.tooltip:set_text(
-            format('%s\n--\n%s\n%s', mpd_notification_preset.text, mpd_now.file, table.concat(modes, ' ')))
+         widget.tooltip:set_text(format('%s\n--\n%s\n%s',
+            mpd_notification_preset.text, mpd_now.file, table.concat(modes, ' ')))
       end
    end
 })
@@ -117,7 +119,7 @@ local wp_file = nil
 local wp_files = {}
 theme.wallpaper = function(s)
    if next(wp_files) == nil then
-      local fh = io.popen([[ find /home/jin/images/bkg -type f | grep -Ei "\\.(jpg|jpeg|gif|bmp|png)$" | grep -Ev "vertical" | shuf ]])
+      local fh = io.popen([[ find /home/jin/images/bkg -type f | grep -Ei "\\.(jpg|jpeg|gif|bmp|png)$" | grep -Ev "vertical" | grep -Ev "16x9" | shuf ]])
       for file in fh:lines() do
          table.insert(wp_files, file)
       end
