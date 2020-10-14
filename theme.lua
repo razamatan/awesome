@@ -11,7 +11,7 @@ local format = string.format
 local theme = gears.protected_call(dofile, awful.util.get_themes_dir() .. 'zenburn/theme.lua')
 
 -- master windows and columns
-theme.master_count = 4
+theme.master_count = 3
 
 -- desktop background color
 theme.desktop_color = '#000'
