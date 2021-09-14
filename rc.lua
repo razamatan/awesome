@@ -15,6 +15,7 @@ local lain = require('lain')
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
+local xrandr = require("xrandr")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
@@ -334,6 +335,8 @@ globalkeys = gears.table.join(
     awful.key({}, "XF86AudioRaiseVolume", beautiful.volume.fx.up,
               {description = "increase volume", group = "audio"}),
     --XF86HomePage XF86Search XF86Mail XF86Favorites XF86Launch5 XF86Launch6 XF86Launch7 XF86Launch8 XF86Launch9
+    awful.key({}, "XF86Launch5", function() xrandr.xrandr() end,
+              {description = "xrandr", group = "screen"}),
     --awful.key({ modkey }, "XF86Forward", function() awful.spawn("mpc next", false) end,
     --          {description = "mpc next", group = "audio"}),
     --awful.key({ modkey }, "XF86Back", function() awful.spawn("mpc prev", false) end,
