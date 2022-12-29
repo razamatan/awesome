@@ -28,7 +28,7 @@ theme.layout_centerfair  = theme.lain_icons .. 'centerfair.png'  -- termfair.cen
 theme.layout_cascade     = theme.lain_icons .. 'cascade.png'
 theme.layout_cascadetile = theme.lain_icons .. 'cascadetile.png' -- cascade.tile
 theme.layout_centerwork  = theme.lain_icons .. 'centerwork.png'
-theme.layout_centerhwork = theme.lain_icons .. 'centerworkh.png' -- centerwork.horizonta
+theme.layout_centerworkh = theme.lain_icons .. 'centerworkh.png' -- centerwork.horizontal
 theme.separator = ' ◦ '
 
 -- clock & calendar
