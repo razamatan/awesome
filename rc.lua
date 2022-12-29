@@ -142,9 +142,6 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
--- Keyboard map indicator and switcher
-mykeyboardlayout = awful.widget.keyboardlayout()
-
 -- {{{ Wibar
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -244,7 +241,6 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             beautiful.mpd.widget,
             separator,
-            mykeyboardlayout,
             wibox.widget.systray(),
             beautiful.volume.widget,
             beautiful.clock,
@@ -320,7 +316,7 @@ globalkeys = gears.table.join(
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
-    awful.key({ modkey, altkey    }, "l", function () awful.spawn("xsecurelock", false) end,
+    awful.key({ modkey, altkey    }, "l", function () awful.spawn.with_shell("XSECURELOCK_BLANK_TIMEOUT=10 XSECURELOCK_PASSWORD_PROMPT=time_hex xsecurelock", false) end,
               {description = "lock screen", group = "screen"}),
     awful.key({ modkey, altkey    }, "m", function () awful.spawn("/zhome/jin/bin/monitor_off 10") end,
               {description = "turn monitor off for 10s via dpms", group = "screen"}),
@@ -561,7 +557,7 @@ awful.rules.rules = {
 client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
-    -- if not awesome.startup then awful.client.setslave(c) end
+    if not awesome.startup then awful.client.setslave(c) end
 
     if awesome.startup
       and not c.size_hints.user_position
